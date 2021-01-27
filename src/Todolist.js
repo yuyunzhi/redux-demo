@@ -2,32 +2,42 @@ import React,{useEffect,useState} from 'react'
 import 'antd/dist/antd.css'
 import {Input, Button ,Space ,List} from 'antd'
 import store from './store'
-
+import {CHANGE_INPUT_VALUE,ADD_ONE_INPUT_LIST,DELETE_ONE_INPUT_LIST} from './store/acitonType'
 const Todolist = () => {
   const [listData, setListData] = useState(store.getState())
+  const [inputValue ,setInputValue] = useState()
   useEffect(()=>{
     console.log(listData)
     // 当store里的数据发生变化，那么subscribe的回调函数就会触发
     store.subscribe(()=>{
-      setListData(store.getState())
+      setListData(store.getState()) // {inputValue,list}
     })
   },[])
 
-  const data = [
-    'Racing car sprays burning fuel into crowd.',
-    'Japanese princess to wed commoner.',
-    'Australian walks 100km after outback crash.',
-    'Man charged over missing wedding girl.',
-    'Los Angeles battles huge wildfires.',
-  ];
 
   const handleInputChange = (e)=>{
     const action = {
-      type:'change_input_value',
+      type:CHANGE_INPUT_VALUE,
       value: e.target.value
     }
+    setInputValue(e.target.value)
     store.dispatch(action)
-    console.log(e.target.value);
+  }
+  const submitInput = ()=>{
+    const action = {
+      type:ADD_ONE_INPUT_LIST,
+      value:inputValue
+    }
+    setInputValue('')
+    store.dispatch(action)
+  }
+
+  const deleteItem = (index)=>{
+    const action = {
+      type:DELETE_ONE_INPUT_LIST,
+      value:index
+    }
+    store.dispatch(action)
   }
 
   return (
@@ -36,13 +46,13 @@ const Todolist = () => {
           <Input placeholder="todo info"
                  onChange={handleInputChange}
                  value={listData.inputValue} style={{width:300}}/>
-          <Button type="primary">提交</Button>
+          <Button type="primary" onClick={submitInput}>提交</Button>
         </Space>
         <List
             bordered
             style={{width:300,marginTop:10}}
             dataSource={listData.list}
-            renderItem={item=>(<List.Item className="item">{item}</List.Item>)}
+            renderItem={(item,index)=>(<List.Item className="item" onClick={()=>deleteItem(index)}>{item}</List.Item>)}
         />
 
       </div>
