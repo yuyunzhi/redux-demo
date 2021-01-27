@@ -2,6 +2,7 @@ import React,{useEffect,useState} from 'react'
 import 'antd/dist/antd.css'
 import {Input, Button ,Space ,List} from 'antd'
 import store from './store'
+import {getInputChangeAction,addInputListAction,deleteInputListAction} from './store/actionCreators'
 import {CHANGE_INPUT_VALUE,ADD_ONE_INPUT_LIST,DELETE_ONE_INPUT_LIST} from './store/acitonType'
 const Todolist = () => {
   const [listData, setListData] = useState(store.getState())
@@ -16,27 +17,18 @@ const Todolist = () => {
 
 
   const handleInputChange = (e)=>{
-    const action = {
-      type:CHANGE_INPUT_VALUE,
-      value: e.target.value
-    }
+    const action = getInputChangeAction(e.target.value)
     setInputValue(e.target.value)
     store.dispatch(action)
   }
   const submitInput = ()=>{
-    const action = {
-      type:ADD_ONE_INPUT_LIST,
-      value:inputValue
-    }
+    const action = addInputListAction(inputValue)
     setInputValue('')
     store.dispatch(action)
   }
 
   const deleteItem = (index)=>{
-    const action = {
-      type:DELETE_ONE_INPUT_LIST,
-      value:index
-    }
+    const action = deleteInputListAction(index)
     store.dispatch(action)
   }
 
