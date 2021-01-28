@@ -2,9 +2,11 @@ import React,{useEffect,useState} from 'react'
 import 'antd/dist/antd.css'
 import {Input, Button ,Space ,List} from 'antd'
 import store from './store'
+import connect from 'react-redux'
+
 import {getInputChangeAction,addInputListAction,deleteInputListAction,getTodolist} from './store/actionCreators'
 
-const Todolist = () => {
+const TodoList = () => {
   const [listData, setListData] = useState(store.getState())
   const [inputValue ,setInputValue] = useState()
 
@@ -56,4 +58,4 @@ const Todolist = () => {
   )
 }
 
-export default Todolist
+export default TodoList
