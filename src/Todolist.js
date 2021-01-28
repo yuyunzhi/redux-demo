@@ -3,10 +3,11 @@ import 'antd/dist/antd.css'
 import {Input, Button ,Space ,List} from 'antd'
 import store from './store'
 import {getInputChangeAction,addInputListAction,deleteInputListAction} from './store/actionCreators'
-import {CHANGE_INPUT_VALUE,ADD_ONE_INPUT_LIST,DELETE_ONE_INPUT_LIST} from './store/acitonType'
+
 const Todolist = () => {
   const [listData, setListData] = useState(store.getState())
   const [inputValue ,setInputValue] = useState()
+
   useEffect(()=>{
     console.log(listData)
     // 当store里的数据发生变化，那么subscribe的回调函数就会触发
