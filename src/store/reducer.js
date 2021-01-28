@@ -2,7 +2,7 @@ import {CHANGE_INPUT_VALUE,INIT_INPUT_LIST,ADD_ONE_INPUT_LIST,DELETE_ONE_INPUT_L
 
 
 const defaultState = {
-  inputValue:'123',
+  inputValue:'',
   list:[1,2,3,4]
 }
 
@@ -11,12 +11,12 @@ export default (state = defaultState,action)=>{
   const newState = JSON.parse(JSON.stringify(state))
 
   if(action.type === CHANGE_INPUT_VALUE){
-    newState.inputValue = action.inputValue
+    newState.inputValue = action.value
     return newState
   }
 
   if(action.type === ADD_ONE_INPUT_LIST){
-    newState.list.push(action.value)
+    newState.list.push(newState.inputValue)
     newState.inputValue = ''
     return newState
   }

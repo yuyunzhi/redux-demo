@@ -1,6 +1,6 @@
 import {ADD_ONE_INPUT_LIST,INIT_INPUT_LIST, CHANGE_INPUT_VALUE, DELETE_ONE_INPUT_LIST} from "./acitonType";
 import axios from 'axios'
-import store from './index'
+
 export const getInputChangeAction = (value)=>(
     {
       type:CHANGE_INPUT_VALUE,
@@ -8,10 +8,9 @@ export const getInputChangeAction = (value)=>(
     }
 )
 
-export const addInputListAction = (value)=>(
+export const addInputListAction = ()=>(
     {
-      type:ADD_ONE_INPUT_LIST,
-      value:value
+      type:ADD_ONE_INPUT_LIST
     }
 )
 

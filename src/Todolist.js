@@ -1,61 +1,60 @@
 import React,{useEffect,useState} from 'react'
 import 'antd/dist/antd.css'
-import {Input, Button ,Space ,List} from 'antd'
-import store from './store'
-import connect from 'react-redux'
+import {Input, Button ,Space} from 'antd'
+import {connect} from 'react-redux'
 
 import {getInputChangeAction,addInputListAction,deleteInputListAction,getTodolist} from './store/actionCreators'
 
-const TodoList = () => {
-  const [listData, setListData] = useState(store.getState())
-  const [inputValue ,setInputValue] = useState()
+const TodoList = (props) => {
+  console.log('[TodoList]props',props);
+  const {handleInputChange,submitInput,deleteItem,inputValue,list} = props
 
   useEffect(()=>{
-    console.log(listData)
     // 发送请求拿到数据并保存到store
-    const action = getTodolist()
-    store.dispatch(action)
+    // const action = getTodolist()
+    // store.dispatch(action)
 
-    // 当store里的数据发生变化，那么subscribe的回调函数就会触发
-    store.subscribe(()=>{
-      setListData(store.getState()) // {inputValue,list}
-    })
   },[])
-
-
-  const handleInputChange = (e)=>{
-    const action = getInputChangeAction(e.target.value)
-    setInputValue(e.target.value)
-    store.dispatch(action)
-  }
-  const submitInput = ()=>{
-    const action = addInputListAction(inputValue)
-    setInputValue('')
-    store.dispatch(action)
-  }
-
-  const deleteItem = (index)=>{
-    const action = deleteInputListAction(index)
-    store.dispatch(action)
-  }
 
   return (
       <div>
         <Space>
           <Input placeholder="todo info"
                  onChange={handleInputChange}
-                 value={listData.inputValue} style={{width:300}}/>
+                 value={inputValue} style={{width:300}}/>
           <Button type="primary" onClick={submitInput}>提交</Button>
         </Space>
-        <List
-            bordered
-            style={{width:300,marginTop:10}}
-            dataSource={listData.list}
-            renderItem={(item,index)=>(<List.Item className="item" onClick={()=>deleteItem(index)}>{item}</List.Item>)}
-        />
-
+        <ul>
+          {list.map((item,index)=>{
+            return <li key={index} onClick={()=>deleteItem(index)} style={{width:300,marginTop:10}}>{item}</li>
+          })}
+        </ul>
       </div>
   )
 }
 
-export default TodoList
+const mapStateToProps = (state) =>{
+  return {
+    inputValue:state.inputValue,
+    list:state.list
+  }
+}
+
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    handleInputChange(e){
+      const action = getInputChangeAction(e.target.value)
+      dispatch(action)
+    },
+    submitInput(){
+      const action = addInputListAction()
+      dispatch(action)
+    },
+    deleteItem(index){
+      const action = deleteInputListAction(index)
+      dispatch(action)
+    }
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(TodoList)
