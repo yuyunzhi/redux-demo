@@ -1,4 +1,4 @@
-import {CHANGE_INPUT_VALUE,ADD_ONE_INPUT_LIST,DELETE_ONE_INPUT_LIST} from './acitonType'
+import {CHANGE_INPUT_VALUE,INIT_INPUT_LIST,ADD_ONE_INPUT_LIST,DELETE_ONE_INPUT_LIST} from './acitonType'
 
 
 const defaultState = {
@@ -23,6 +23,11 @@ export default (state = defaultState,action)=>{
 
   if(action.type === DELETE_ONE_INPUT_LIST){
     newState.list.splice(action.value,1)
+    return newState
+  }
+
+  if(action.type === INIT_INPUT_LIST){
+    newState.list = action.value
     return newState
   }
   return state

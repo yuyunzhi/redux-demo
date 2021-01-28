@@ -2,7 +2,7 @@ import React,{useEffect,useState} from 'react'
 import 'antd/dist/antd.css'
 import {Input, Button ,Space ,List} from 'antd'
 import store from './store'
-import {getInputChangeAction,addInputListAction,deleteInputListAction} from './store/actionCreators'
+import {getInputChangeAction,addInputListAction,deleteInputListAction,getTodolist} from './store/actionCreators'
 
 const Todolist = () => {
   const [listData, setListData] = useState(store.getState())
@@ -10,6 +10,10 @@ const Todolist = () => {
 
   useEffect(()=>{
     console.log(listData)
+    // 发送请求拿到数据并保存到store
+    const action = getTodolist()
+    store.dispatch(action)
+
     // 当store里的数据发生变化，那么subscribe的回调函数就会触发
     store.subscribe(()=>{
       setListData(store.getState()) // {inputValue,list}
